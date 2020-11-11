@@ -16,7 +16,7 @@ func Bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 
 func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 	var (
-		mid  = min + ((max - min) / 2)
+		mid  = min + (max-min)/2
 		link = strings.Replace(base, placeholder, strconv.Itoa(mid), 1)
 	)
 	resp, err := http.Get(link)
