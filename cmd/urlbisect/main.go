@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
 	"strings"
 
@@ -21,10 +22,15 @@ var (
 	to          = flag.Int("t", 1000000, "count to")
 	indicate404 = flag.String("r", "", "a regular expression to use as 404 indicator")
 	verbose     = flag.Bool("v", false, "be verbose")
+	showVersion = flag.Bool("version", false, "show version and exit")
 )
 
 func main() {
 	flag.Parse()
+	if *showVersion {
+		fmt.Printf("urlbisect %s %s\n", Version, Buildtime)
+		os.Exit(0)
+	}
 	if !*verbose {
 		log.SetOutput(ioutil.Discard)
 	}
