@@ -1,16 +1,11 @@
 package urlbisect
 
 import (
-	"errors"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"strconv"
 	"strings"
-)
-
-var (
-	ValueError = errors.New("value error")
 )
 
 // Bisect runs binary search on a template url with autoincrement numbers and
