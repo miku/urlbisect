@@ -19,6 +19,7 @@ var (
 	placeholder = flag.String("p", "@", "placeholder in the URL to be replaced with an integer")
 	from        = flag.Int("f", 0, "count from")
 	to          = flag.Int("t", 1000000, "count to")
+	indicate404 = flag.String("r", "", "a regular expression to use as 404 indicator")
 	verbose     = flag.Bool("v", false, "be verbose")
 )
 
@@ -27,7 +28,7 @@ func main() {
 	if !*verbose {
 		log.SetOutput(ioutil.Discard)
 	}
-	v, err := urlbisect.Bisect(*base, *placeholder, *from, *to)
+	v, err := urlbisect.Bisect(*base, *placeholder, *indicate404, *from, *to)
 	if err != nil {
 		log.Fatal(err)
 	}
