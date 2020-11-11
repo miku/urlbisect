@@ -45,7 +45,11 @@ func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 		max = mid
 	}
 	if min == max {
-		return mid, nil
+		if resp.StatusCode < 400 {
+			return mid, nil
+		} else {
+			return mid - 1, nil
+		}
 	}
 	return bisect(base, placeholder, indicate404, min, max)
 }
