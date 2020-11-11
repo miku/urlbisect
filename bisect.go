@@ -30,16 +30,16 @@ func bisect(base, placeholder string, min, max int) (int, error) {
 		return 0, err
 	}
 	defer resp.Body.Close()
+	log.Printf("[%d] %s", resp.StatusCode, link)
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return 0, err
 	}
-	log.Printf("%d %s", resp.StatusCode, link)
 	if resp.StatusCode < 400 {
 		if bytes.Contains(b, []byte("404")) {
 			max = mid
 		} else {
-			min = mid
+			min = mid + 1
 		}
 	} else {
 		max = mid

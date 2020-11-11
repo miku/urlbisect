@@ -3,6 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"strconv"
 	"strings"
@@ -18,15 +19,18 @@ var (
 	placeholder = flag.String("p", "@", "placeholder in the URL to be replaced with an integer")
 	from        = flag.Int("f", 0, "count from")
 	to          = flag.Int("t", 1000000, "count to")
+	verbose     = flag.Bool("v", false, "be verbose")
 )
 
 func main() {
 	flag.Parse()
-
+	if !*verbose {
+		log.SetOutput(ioutil.Discard)
+	}
 	v, err := urlbisect.Bisect(*base, *placeholder, *from, *to)
 	if err != nil {
 		log.Fatal(err)
 	}
 	link := strings.Replace(*base, *placeholder, strconv.Itoa(v), 1)
-	fmt.Sprintf("%d %s", v, link)
+	fmt.Printf("%d %s\n", v, link)
 }
