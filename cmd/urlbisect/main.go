@@ -32,6 +32,7 @@ var (
 	indicate404 = flag.String("r", "", "a regular expression to use as 404 indicator")
 	verbose     = flag.Bool("v", false, "be verbose")
 	showVersion = flag.Bool("version", false, "show version and exit")
+	scanHandle  = flag.Bool("H", false, "scan the handle.net system")
 )
 
 func main() {
@@ -42,6 +43,13 @@ func main() {
 	}
 	if !*verbose {
 		log.SetOutput(ioutil.Discard)
+	}
+	if *scanHandle {
+		err := urlbisect.ScanHandle(0, 20000, os.Stdout)
+		if err != nil {
+			log.Fatal(err)
+		}
+		os.Exit(0)
 	}
 	v, err := urlbisect.Bisect(*base, *placeholder, *indicate404, *from, *to)
 	if err != nil {

@@ -1,6 +1,8 @@
 package urlbisect
 
 import (
+	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -47,4 +49,21 @@ func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 		}
 	}
 	return bisect(base, placeholder, indicate404, min, max)
+}
+
+func ScanHandle(min, max int, w io.Writer) error {
+	for i := min; i < max; i++ {
+		base := fmt.Sprintf("https://handle.net/%d/@", i)
+		v, err := Bisect(base, "@", "", 0, 1000000)
+		if err != nil {
+			log.Printf("skipping failed: %s", base)
+			continue
+		}
+		if v == -1 {
+			fmt.Fprintf(w, "ER %s\n", base)
+		} else {
+			fmt.Fprintf(w, "OK %s %d\n", base, v)
+		}
+	}
+	return nil
 }
