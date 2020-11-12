@@ -99,4 +99,4 @@ https://www.scandinavica.net/article/16602 and so on share the same id space;
 even though it might be totally unrealated, urls work across domains, e.g.
 https://epj.us/article/17577.pdf,
 https://www.scandinavica.net/article/17577.pdf and so on will point to the same
-file
+file (same with issues: https://www.internetmathematicsjournal.com/issue/2592)
