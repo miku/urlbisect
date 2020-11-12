@@ -21,7 +21,12 @@ func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 		mid  = min + (max-min)/2
 		link = strings.Replace(base, placeholder, strconv.Itoa(mid), 1)
 	)
-	resp, err := http.Get(link)
+	req, err := http.NewRequest("GET", link, nil)
+	if err != nil {
+		return 0, err
+	}
+	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36")
+	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
 		return 0, err
 	}
@@ -56,7 +61,7 @@ func ScanHandle(min, max int, w io.Writer) error {
 		base := fmt.Sprintf("https://hdl.handle.net/%d/@", i)
 		v, err := Bisect(base, "@", "", 0, 1000000)
 		if err != nil {
-			log.Printf("skipping failed: %s", base)
+			log.Printf("skipping failed: %s, %v", base, err)
 			continue
 		}
 		if v == -1 {
