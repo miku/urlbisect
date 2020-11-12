@@ -87,4 +87,16 @@ $ urlbisect -v -u https://www.semanticscholar.org/author/@ -f 0 -t 500000000
 * https://www.irbnet.de/daten/iconda/CIB20436.pdf
 * https://elib.dlr.de/134801/
 * https://www.alexandria.unisg.ch/62751/
+* https://www.scandinavica.net/article/16602.pdf
 * ...
+
+## Observations
+
+* publishing system "scholastica" seems to offer a hosted version and it seems
+  to be hosted on a single instance; e.g.
+https://www.idrimjournal.com/article/11689,
+https://www.scandinavica.net/article/16602 and so on share the same id space;
+even though it might be totally unrealated, urls work across domains, e.g.
+https://epj.us/article/17577.pdf,
+https://www.scandinavica.net/article/17577.pdf and so on will point to the same
+file
