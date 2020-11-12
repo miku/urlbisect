@@ -1,3 +1,12 @@
+// For URLs with gapless integer identifiers, urlbisect can return the highest
+// number that returns a successful HTTP status code.
+//
+// $ urlbisect -v -u "https://freidok.uni-freiburg.de/data/@"
+// 169476 https://freidok.uni-freiburg.de/data/169476
+//
+// TODO:
+//
+// * allow "success patterns"
 package main
 
 import (
