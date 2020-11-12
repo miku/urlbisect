@@ -24,7 +24,7 @@ func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 		return 0, err
 	}
 	defer resp.Body.Close()
-	log.Printf("[%d] %s", resp.StatusCode, link)
+	log.Printf("[%d] %s %s", resp.StatusCode, link, resp.Request.URL.String())
 	b, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		return 0, err
