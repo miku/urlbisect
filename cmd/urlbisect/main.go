@@ -45,7 +45,7 @@ func main() {
 		log.SetOutput(ioutil.Discard)
 	}
 	if *scanHandle {
-		err := urlbisect.ScanHandle(0, 20000, os.Stdout)
+		err := urlbisect.ScanHandle(*from, *to, os.Stdout)
 		if err != nil {
 			log.Fatal(err)
 		}
