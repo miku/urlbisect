@@ -53,7 +53,7 @@ func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 
 func ScanHandle(min, max int, w io.Writer) error {
 	for i := min; i < max; i++ {
-		base := fmt.Sprintf("https://handle.net/%d/@", i)
+		base := fmt.Sprintf("https://hdl.handle.net/%d/@", i)
 		v, err := Bisect(base, "@", "", 0, 1000000)
 		if err != nil {
 			log.Printf("skipping failed: %s", base)
