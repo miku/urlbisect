@@ -47,6 +47,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	if v == -1 {
+		log.Printf("no valid url found via %s", *base)
+		os.Exit(1)
+	}
 	link := strings.Replace(*base, *placeholder, strconv.Itoa(v), 1)
 	fmt.Printf("%d %s\n", v, link)
 }
