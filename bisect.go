@@ -9,7 +9,7 @@ import (
 )
 
 // Bisect runs binary search on a template url with autoincrement numbers and
-// will report back the last number and url that did yield a 200 OK.
+// will report back the last number that did yield a 200 OK.
 func Bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 	return bisect(base, placeholder, indicate404, min, max)
 }
