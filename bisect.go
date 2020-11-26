@@ -12,11 +12,11 @@ import (
 
 // Bisect runs binary search on a template url with autoincrement numbers and
 // will report back the last number that did yield a 200 OK.
-func Bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
-	return bisect(base, placeholder, indicate404, min, max)
+func Bisect(base, placeholder, indicate404 string, redirect404 bool, min, max int) (int, error) {
+	return bisect(base, placeholder, indicate404, redirect404, min, max)
 }
 
-func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
+func bisect(base, placeholder, indicate404 string, redirect404 bool, min, max int) (int, error) {
 	var (
 		mid  = min + (max-min)/2
 		link = strings.Replace(base, placeholder, strconv.Itoa(mid), 1)
@@ -25,8 +25,16 @@ func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 	if err != nil {
 		return 0, err
 	}
+	client := http.DefaultClient
+	if redirect404 {
+		client = &http.Client{
+			CheckRedirect: func(req *http.Request, via []*http.Request) error {
+				return http.ErrUseLastResponse
+			},
+		}
+	}
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36")
-	resp, err := http.DefaultClient.Do(req)
+	resp, err := client.Do(req)
 	if err != nil {
 		return 0, err
 	}
@@ -37,7 +45,10 @@ func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 		return 0, err
 	}
 	if resp.StatusCode < 400 {
-		if indicate404 != "" && strings.Contains(string(b), indicate404) {
+		if resp.StatusCode >= 300 && resp.StatusCode < 400 && redirect404 {
+			max = mid
+			log.Printf("treating %d as miss", resp.StatusCode)
+		} else if indicate404 != "" && strings.Contains(string(b), indicate404) {
 			max = mid
 			log.Printf("[404] found indicator string: %s", indicate404)
 		} else {
@@ -53,13 +64,13 @@ func bisect(base, placeholder, indicate404 string, min, max int) (int, error) {
 			return mid - 1, nil
 		}
 	}
-	return bisect(base, placeholder, indicate404, min, max)
+	return bisect(base, placeholder, indicate404, redirect404, min, max)
 }
 
 func ScanHandle(min, max int, w io.Writer) error {
 	for i := min; i < max; i++ {
 		base := fmt.Sprintf("https://hdl.handle.net/%d/@", i)
-		v, err := Bisect(base, "@", "", 0, 1000000)
+		v, err := Bisect(base, "@", "", false, 0, 1000000)
 		if err != nil {
 			log.Printf("skipping failed: %s, %v", base, err)
 			continue

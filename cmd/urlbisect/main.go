@@ -30,6 +30,7 @@ var (
 	from        = flag.Int("f", 0, "count from")
 	to          = flag.Int("t", 1000000, "count to")
 	indicate404 = flag.String("r", "", "a regular expression to use as 404 indicator")
+	redirect404 = flag.Bool("3", false, "treat redirect as 404")
 	verbose     = flag.Bool("v", false, "be verbose")
 	showVersion = flag.Bool("version", false, "show version and exit")
 	scanHandle  = flag.Bool("H", false, "scan the handle.net system")
@@ -51,7 +52,7 @@ func main() {
 		}
 		os.Exit(0)
 	}
-	v, err := urlbisect.Bisect(*base, *placeholder, *indicate404, *from, *to)
+	v, err := urlbisect.Bisect(*base, *placeholder, *indicate404, *redirect404, *from, *to)
 	if err != nil {
 		log.Fatal(err)
 	}
