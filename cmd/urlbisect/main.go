@@ -29,7 +29,7 @@ var (
 	placeholder = flag.String("p", "@", "placeholder in the URL to be replaced with an integer")
 	from        = flag.Int("f", 0, "count from")
 	to          = flag.Int("t", 1000000, "count to")
-	indicate404 = flag.String("r", "", "a regular expression to use as 404 indicator")
+	indicate404 = flag.String("r", "", "a regular expression to use as 404 indicator (or 'blank' for empty page)")
 	redirect404 = flag.Bool("3", false, "treat redirect as 404")
 	verbose     = flag.Bool("v", false, "be verbose")
 	showVersion = flag.Bool("version", false, "show version and exit")
