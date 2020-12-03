@@ -48,7 +48,7 @@ func bisect(base, placeholder, indicate404 string, redirect404 bool, min, max in
 		if resp.StatusCode >= 300 && resp.StatusCode < 400 && redirect404 {
 			max = mid
 			log.Printf("treating %d as miss", resp.StatusCode)
-		} else if indicate404 != "" && strings.Contains(string(b), indicate404) {
+		} else if indicate404 != "" && (indicate404 == "blank" && len(b) == 0 || strings.Contains(string(b), indicate404)) {
 			max = mid
 			log.Printf("[404] found indicator string: %s", indicate404)
 		} else {
