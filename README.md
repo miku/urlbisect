@@ -89,6 +89,7 @@ $ urlbisect -v -u https://www.semanticscholar.org/author/@ -f 0 -t 500000000
 * https://www.alexandria.unisg.ch/62751/
 * https://www.scandinavica.net/article/16602.pdf
 * https://www.honda-ri.de/pubs/pdf/1986.pdf
+* http://journals.ioffe.ru/articles/viewPDF/44587
 * ...
 
 ## Observations
