@@ -27,6 +27,7 @@ func bisect(base, placeholder, indicate404 string, redirect404 bool, min, max in
 		return 0, err
 	}
 	client := http.DefaultClient
+	client.Transport = http.DefaultTransport
 	client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{
 		InsecureSkipVerify: true,
 	}
