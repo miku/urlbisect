@@ -1,6 +1,7 @@
 package urlbisect
 
 import (
+	"crypto/tls"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -31,6 +32,9 @@ func bisect(base, placeholder, indicate404 string, redirect404 bool, min, max in
 			CheckRedirect: func(req *http.Request, via []*http.Request) error {
 				return http.ErrUseLastResponse
 			},
+		}
+		client.Transport.(*http.Transport).TLSClientConfig = &tls.Config{
+			InsecureSkipVerify: true,
 		}
 	}
 	req.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 5.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36")
