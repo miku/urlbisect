@@ -6,7 +6,7 @@ search. Reports the last successful id and URL.
 ## Installation
 
 ```
-$ go get github.com/miku/urlbisect/...
+$ go install github.com/miku/urlbisect/cmd/urlbisect@latest
 ```
 
 ## Usage
